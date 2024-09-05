@@ -1,5 +1,4 @@
 from sympy import symbols, ln, diff
-from torch import tensor, log, optim
 
 
 # градиентный спуск при помощи sympy
@@ -11,36 +10,42 @@ lr = 0.01
 point = [5, 10, 1, 2]
 points = ([5, 10, 1, 2],)
 for _ in range(2):
+	# с каждой итерацией меняем значения весов
 	parameters = {item: point[num] for num, item in enumerate(items)}
 	for num, item in enumerate(items):
 		gradient = diff(f, item).subs(parameters)
 		point[num] = round(point[num] - lr * gradient, 4)
-	print(point)
 
-print('\n')
+print(point,'\n')
 
 
 # градиентный спуск при помощи torch (#1)
+from torch import tensor, log
+
+
 # матрица весов
 w = tensor([[5, 10], [1, 2]], requires_grad=True, dtype=float)
-print(w, '\n')
+# скорость обучения (learning rate)
 lr = 0.01
 for num in range(1, 3):
-	# функция (якобы потерь)
-	function = log(log(w + 7)).prod()
-	function.backward()
-	w.data -= lr * w.grad
-	w.grad.zero_()
-	print('GS  №', num, ', w : ', w, '\n')
+	function = log(log(w + 7)).prod()			# функция (якобы потерь)
+	function.backward()							# обратное распространение вычисления
+	w.data -= lr * w.grad						# значения весов уменьшаем на градиент
+	w.grad.zero_()								# обнуляем градиент, чтобы не накапливать его значения
+	# print('GS  №', num, ', w : ', w, '\n')
 
-print('\n')
+print(w, '\n')
 
 
 # градиентный спуск при помощи torch optimiser (#2)
+from torch import optim
+
+
 x = tensor([[5, 10], [1, 2]], requires_grad=True, dtype=float)
-#
+# Создаем оптимизатор, который осуществляет ГС. SGD - стохастический ГС
 optimiser = optim.SGD([x], lr=0.01)
-#
+
+
 def function_log(variable):
 	return log(log(variable + 7)).prod()
 
@@ -48,8 +53,8 @@ def function_log(variable):
 def make_gradient_step(function, variable):
 	function_result = function(variable)
 	function_result.backward()
-	optimiser.step()
-	optimiser.zero_grad()
+	optimiser.step()								# один шаг ГС
+	optimiser.zero_grad()							# обнуляем градиент
 
 
 for i in range(2):
