@@ -1,4 +1,4 @@
-from torch import optim, rand, randn, sin, linspace, nn
+from torch import optim, rand, randn, sin, linspace, nn, round
 import matplotlib.pyplot as plt
 
 
@@ -85,10 +85,10 @@ def predict(net, x, y):
 	plt.plot(x, y_predict.data, 'o', c='r')
 	plt.legend(['True', 'Predict'])
 	plt.show()
-predict(sine_net, x_validation, y_validation)
+# predict(sine_net, x_validation, y_validation)
 
 
-# Проверка осуществляется вызовом кода:
+# посмотрим на метрику MSE (Средняя квадратичная ошибка):
 def metric(pred, target):
-	return (pred - target).abs().mean()
+	return ((pred - target) ** 2).mean()
 print(metric(sine_net.forward(x_validation), y_validation).item())
