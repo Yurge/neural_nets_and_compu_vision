@@ -2,6 +2,9 @@ from torch import optim, rand, randn, sin, linspace, nn, round
 import matplotlib.pyplot as plt
 
 
+# -------------------------------------- НС для задач регрессии --------------------------------------
+
+
 # train dataset (данные для тренировки НС)
 x_train = rand(100)							# тензор из 100 чисел от 0 до 1
 x_train = x_train * 20 - 10					# увеличим числа, чтобы они были примерно от -10 до 10
