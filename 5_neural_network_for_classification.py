@@ -19,13 +19,13 @@ backends.cudnn.deterministic = True
 
 
 # Загрузим известный датасет wine из библиотеки sklearn, будем его использовать для классификации. Там 178 бутылок,
-# 13 параметров и будет 3 класса для разделения
+# 13 параметров и будет 3 класса на выходе
 wine = sklearn.datasets.load_wine()
 Y = wine.target
 # print(wine.data.shape)
 
 
-# Разделим данные на train и test
+# Разделим данные на train и test, возьмем из данных только 2 колонки (2 параметра)
 X_train, X_test, y_train, y_test = train_test_split(wine.data[:, :2], Y, test_size=0.3, shuffle=True)
 
 # Все данные обернем в тенсоры. Если данные дробные, то будет "float tensor"
