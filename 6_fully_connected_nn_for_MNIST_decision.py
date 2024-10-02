@@ -78,21 +78,21 @@ for epoch in range(30):
 		x_batch = x_train[batch_indexes]
 		y_batch = y_train[batch_indexes]
 		# прогоняем batch через НС, получаем значение функции потерь, делаем шаг ГС
-		predicts = mnist_net.forward(x_batch)
+		predicts = mnist_net(x_batch)
 		loss_value = loss(predicts, y_batch)
 		loss_value.backward()
 		optimizer.step()
 	# После каждой эпохи в НС сохранены определенные веса и смещения. Используя эти веса, будем считать значение
 	# accuracy на тестовых данных и сохранять его в список, чтобы затем построить график
-	train_preds = mnist_net.forward(x_train)
+	train_preds = mnist_net(x_train)
 	train_loss_history.append(loss(train_preds, y_train).item())
 
-	test_preds = mnist_net.forward(x_test)
+	test_preds = mnist_net(x_test)
 	test_loss_history.append(loss(test_preds, y_test).item())
 
 	accuracy = (test_preds.argmax(dim=1) == y_test).float().mean()
 	test_accuracy_history.append(accuracy)
-	# print(accuracy)
+	print(accuracy)
 
 
 # в конце всех эпох обучения НС посмотрим на график функции потерь (loss) и точности предсказаний (accuracy)
