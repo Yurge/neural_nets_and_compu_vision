@@ -32,7 +32,7 @@ for num in range(1, 3):
 	function.backward()							# обратное распространение вычисления
 	w.data -= lr * w.grad						# значения весов уменьшаем на градиент
 	w.grad.zero_()								# обнуляем градиент, чтобы не накапливать его значения
-	# print('GS  №', num, ', w : ', w, '\n')
+	# print('GS  №', num, ', w_out : ', w_out, '\n')
 
 print(w, '\n')
 
