@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from torch import optim, nn, manual_seed, cuda, backends, device
+from torch import optim, nn, manual_seed, cuda, backends, device, abs
 import random
 import numpy as np
 from torchvision.datasets import MNIST
@@ -20,7 +20,7 @@ backends.cudnn.deterministic = True
 # Там 60000 картинок размером 28х28 пикселей
 MNIST_train = MNIST('./', download=True, train=True)
 MNIST_test = MNIST('./', download=True, train=False)
-# print(wine.data.shape)
+# print(MNIST_train.data.shape)
 
 # разделим данные на train и test
 x_train = MNIST_train.data.float()
@@ -57,10 +57,10 @@ class LeNet5(nn.Module):
 		self.conv22 = nn.Conv2d(24, 32, 4)
 		self.act22 = activate
 		self.pool22 = pooling
-		# после четвертой свертки получилось 4х4х32 = 384
+		# после четвертой свертки получилось 4х4х32 = 512
 
-		# в ф-ии forward метод view растянет изображение в один вектор (4х4х32=384) для входа в полносвязный слой
-		self.fc1 = nn.Linear(in_features=384, out_features=10)
+		# в ф-ии forward метод view растянет изображение в один вектор (4х4х32=512) для входа в полносвязный слой
+		self.fc1 = nn.Linear(in_features=512, out_features=10)
 		self.act3 = activate
 		#
 		self.fc3 = nn.Linear(10, 10)
